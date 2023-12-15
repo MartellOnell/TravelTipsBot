@@ -1,4 +1,4 @@
-import {Model, InferAttributes, InferCreationAttributes, DataTypes, CreateOptions, Optional} from 'sequelize';
+import {Model, DataTypes, Optional} from 'sequelize';
 import {sequelize} from "./db.js";
 import {jsonUser} from "../index.types.js";
 
