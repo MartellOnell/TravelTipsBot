@@ -9,8 +9,3 @@ export interface jsonUser {
     id: number,
     counts: number
 }
-
-export interface stateCreateSign {
-    msg: string,
-    data: jsonUser
-}
