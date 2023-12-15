@@ -38,7 +38,7 @@ bot.onText(/\/start/, async (msg: Message): Promise<void> => {
     }
 
     const cronOptions: CronOptions = {
-        cronTime: '* * * * *',
+        cronTime: '* * * * 1,3,5,7',
         onTick: handleSendTips,
         start: true,
         timeZone: 'Asia/Yekaterinburg'
@@ -100,4 +100,9 @@ bot.onText(/\/getPassedTips (.)/, async (msg: Message, arg: RegExpMatchArray | n
         console.log('user does not exist!')
         await bot.sendMessage(chatId, `sorry, user not found (try typing "/start" again)`)
     }
+})
+
+bot.onText(/\/info/, async (msg: Message): Promise<void> => {
+    const chatId: number | undefined = msg.chat.id
+    await bot.sendMessage(chatId, "hello there, type")
 })
