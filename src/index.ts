@@ -33,7 +33,7 @@ bot.onText(/\/start/, async (msg: Message): Promise<void> => {
             await bot.sendMessage(chatId, `hello, its daily tips:\n${dataTips[user.counts - 1].value}\n${dataTips[user.counts].value}`)
         } else {
             await bot.sendMessage(chatId, "something wrong, try later and type '/start'")
-            job.stop()
+            job?.stop()
         }
     }
 
@@ -43,8 +43,15 @@ bot.onText(/\/start/, async (msg: Message): Promise<void> => {
         start: true,
         timeZone: 'Asia/Yekaterinburg'
     }
-    const job: CronJob = CronJob.from(cronOptions)
-    console.log("job started")
+    let job: CronJob | undefined
+    try {
+        job = CronJob.from(cronOptions)
+        await bot.sendMessage(chatId, "you have subscribed to the advice newsletter\n" +
+            "to check commands of bot type /info")
+        console.log("job started")
+    } catch {
+        await bot.sendMessage(chatId, "something wrong (may be you already typed /started, if not, try later)")
+    }
 })
 
 bot.onText(/\/checkCounts/, async (msg: Message): Promise<void> => {
@@ -104,5 +111,11 @@ bot.onText(/\/getPassedTips (.)/, async (msg: Message, arg: RegExpMatchArray | n
 
 bot.onText(/\/info/, async (msg: Message): Promise<void> => {
     const chatId: number | undefined = msg.chat.id
-    await bot.sendMessage(chatId, "hello there, type")
+    await bot.sendMessage(
+        chatId,
+        "full commands list:\n" +
+        "/start - initial subscription and create sign in data base\n" +
+        "/checkCounts - check how many tips have been passed\n" +
+        "/getPassedTips <tip number> - get current tip of his number"
+    )
 })
